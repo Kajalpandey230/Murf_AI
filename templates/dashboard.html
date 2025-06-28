@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Driver Drowsiness Detection</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f0f2f5;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+        h1 {
+            color: #1a73e8;
+            margin: 0;
+        }
+        .logout-btn {
+            padding: 10px 20px;
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+        .main-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 20px;
+        }
+        .video-container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        #video-feed {
+            width: 100%;
+            border-radius: 5px;
+        }
+        .settings-container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #333;
+        }
+        input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+        .update-btn {
+            width: 100%;
+            padding: 12px;
+            background-color: #1a73e8;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .status {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 5px;
+            background-color: #e8f0fe;
+            color: #1a73e8;
+        }
+        .flash-messages {
+            margin-bottom: 20px;
+        }
+        .flash-message {
+            padding: 10px;
+            background-color: #d4edda;
+            color: #155724;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Driver Drowsiness Detection System</h1>
+            <a href="{{ url_for('logout') }}" class="logout-btn">Logout</a>
+        </div>
+        
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <div class="flash-messages">
+                    {% for message in messages %}
+                        <div class="flash-message">{{ message }}</div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+        
+        <div class="main-content">
+            <div class="video-container">
+                <img id="video-feed" src="{{ url_for('video_feed') }}" alt="Video Feed">
+                <div class="status">
+                    <h3>System Status: Active</h3>
+                    <p>Monitoring driver's alertness...</p>
+                    <p><strong>Note:</strong> Alert will be sent if eyes are closed for more than 10 seconds.</p>
+                </div>
+            </div>
+            
+            <div class="settings-container">
+                <h2>Settings</h2>
+                <form method="POST" action="{{ url_for('update_contact') }}">
+                    <div class="form-group">
+                        <label for="emergency_contact">Emergency Contact Number</label>
+                        <input type="tel" id="emergency_contact" name="emergency_contact" 
+                               pattern="[0-9+]+" placeholder="+1234567890"
+                               value="{{ current_user.emergency_contact }}" required>
+                        <small style="color: #666; display: block; margin-top: 5px;">
+                            Include country code (e.g., +1 for USA)
+                        </small>
+                    </div>
+                    <button type="submit" class="update-btn">Update Emergency Contact</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html> 

@@ -1,0 +1,12 @@
+opencv-python==4.11.0.86
+mediapipe==0.10.8
+flask==3.0.0
+python-dotenv==1.0.0
+numpy==1.26.2
+imutils==0.5.4
+flask-login==0.6.3
+flask-sqlalchemy==3.1.1
+werkzeug==3.0.1
+telesign==2.2.2
+playsound==1.2.2
+pygame==2.5.2
